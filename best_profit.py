@@ -13,30 +13,30 @@ class Investments():
         Function responsible for creating the array with the investment values
         according to the number of days to compare
         """
-        vet = []
+        values_investment = []
         i=0
         while i < qty:
             try:
-                vet.append(float(input(("Digite o Valor do Dia {}: ".format(str(i+1)) ))))
+                values_investment.append(float(input(("Digite o Valor do Dia {}: ".format(str(i+1)) ))))
                 i+=1                
             except ValueError:
                 print("Por gentileza Digitar um Valor valido, caso for decimal utilizar '.' como separador, ex:\n 2.2")
                             
-        b = Compare(vet)
+        b = Compare(values_investment)
         b.profit()
         
 
     
 class Compare():
-    def __init__(self,vet):
+    def __init__(self,values_investment):
         """
         Parameters
         ----------
-        vet : (list) --> float
+        values_investment : (list) --> float
             Receive the list with the values to be compared.
 
         """
-        self.vet = vet
+        self.values_investment = values_investment
         
     def profit(self):
         """
@@ -44,20 +44,20 @@ class Compare():
         creating a new list only with the values that give profits so that it is
         compared and the best option returned
         """
-        ret = []
-        for i in range(len(self.vet)):
-            current_value = self.vet[i]
-            highest_value = max(self.vet[i:])
+        general_profits = [] # variable that stores the values that give profits in matrix form [buy day, sell day, profit]
+        for i in range(len(self.values_investment)):
+            current_value = self.values_investment[i]
+            highest_value = max(self.values_investment[i:])
             if current_value < highest_value:
                 buy = i
-                sale = self.vet.index(highest_value,i)
+                sale = self.values_investment.index(highest_value,i)
                 profit_temp = highest_value - current_value
-                ret.append([buy,sale,profit_temp])
-        if not ret:
+                general_profits.append([buy,sale,profit_temp])
+        if not general_profits:
             print('Sem Lucro!')
             False
         else:
-            resp = self.best_profit(ret)
+            resp = self.best_profit(general_profits)
             print("Compra no dia {}\n Venda no dia {}\n Lucro de R$ {}".format(str(resp[0]+1),str(resp[1]+1),str(resp[2])))
             
 
